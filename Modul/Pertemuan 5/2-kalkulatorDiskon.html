@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Kalkulator Diskon VStore</title>
+        <style>
+            body {
+                font-family: sans-serif; 
+                max-width: 450px; margin: 50px auto; padding: 20px; 
+                background: url('bg_kalkulator.jpg') center/cover fixed;
+            }
+            .kalkulator {
+                background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(5px); 
+                padding: 30px; border-radius: 15px; box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+                text-align: center;
+            }
+            h2 { font-family: 'Comic Sans MS', cursive; font-size: 30px; color: #ff758c; margin: 0 0 5px; }
+            .deskripsi { color: #666; font-size: 14px; font-weight: bold; margin-bottom: 20px; }
+            input { padding: 12px; width: 85%; border: 2px solid #ff758c; border-radius: 10px; outline: none; 
+                margin-bottom: 15px;}
+            input:focus { border-color: #ff4766; }
+            button { padding: 12px 20px; font-weight: bold; background: #ff758c; color: white; border: none; 
+                border-radius: 10px; cursor: pointer; transition: 0.3s; margin: 5px;}
+            button:hover { background: #ff4766; transform: scale(1.05); }
+            .btn-reset { background: #8b3a3a; }
+            .btn-reset:hover { background: #d65c5c; }
+            .hasil { background: rgba(255, 117, 140, 0.1); padding: 15px; border-radius: 10px; margin-top: 20px; 
+                text-align: left; border: 1px dashed #ff758c; }
+            .hasil p { font-size: 16px; font-weight: bold; color: #555; margin: 8px 0; }
+            .hasil-akhir { font-size: 20px; color: #ff4766; border-top: 2px solid #ff758c; padding-top: 10px; }
+        </style>
+    </head>
+    <body>
+        <div class="kalkulator">
+            <h2>✨ Kalkulator Diskon ✨</h2>
+            <p class="deskripsi">Diskon 10% untuk total belanja &ge; Rp 100.000</p>
+
+            <input type="number" id="totalBelanja" placeholder="Masukkan Total Belanja (Rp)" min="0">
+
+            <div>
+                <button onclick="hitungTotal()">Hitung Bayar</button>
+                <button onclick="reset()" class="btn-reset">Reset</button>
+            </div>
+
+            <div class="hasil">
+                <p>Total Belanja: <span id="tampilTotal">Rp 0</span></p>
+                <p>Status Diskon: <span id="tampilStatus">-</span></p>
+                <p>Potongan (10%): <span id="tampilPotongan">Rp 0</span></p>
+                <p class="hasil-akhir">Total Bayar: <span id="tampilBayar">Rp 0</span></p>
+            </div>
+        </div>
+
+        <script>
+            const el = id => document.getElementById(id);
+            const formatRp = angka => "Rp " + angka.toLocaleString('id-ID');
+
+            function hitungTotal() {
+                let total = parseFloat(el('totalBelanja').value);
+
+                if (isNaN(total) || total < 0) return alert('Ups! Harap masukkan nominal belanja yang valid ya! 😅');
+
+                let dptDiskon = total >= 100000;
+                let diskon = dptDiskon ? total * 0.1 : 0;
+                let status = dptDiskon 
+                    ? "<span style='color:#2e7d32'>Hore! Dapat Diskon 10% 🎉</span>" 
+                    : "<span style='color:#8b3a3a'>Yah, tidak dapat diskon 😢</span>";
+
+                el('tampilTotal').innerHTML = formatRp(total);
+                el('tampilStatus').innerHTML = status;
+                el('tampilPotongan').innerHTML = formatRp(diskon);
+                el('tampilBayar').innerHTML = formatRp(total - diskon);
+            }
+
+            function reset() {
+                el('totalBelanja').value = '';
+                el('tampilStatus').innerHTML = '-';
+                el('tampilTotal').innerHTML = el('tampilPotongan').innerHTML = el('tampilBayar').innerHTML = 'Rp 0';
+            }
+        </script>
+    </body>
+</html>

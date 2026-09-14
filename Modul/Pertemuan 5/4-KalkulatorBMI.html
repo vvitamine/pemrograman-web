@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Kalkulator BMI</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('BMI.jpg') no-repeat center center fixed;
+            background-size: cover;
+            text-align: center;
+            padding-top: 10vh;
+        }
+        .box {
+            background: rgba(255, 255, 255, 0.85); 
+            padding: 30px;
+            border-radius: 10px;
+            width: 300px;
+            margin: auto;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        input, button {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background: #4a4a4a;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="box">
+        <h2>Kalkulator BMI</h2>
+        <input type="number" id="berat" placeholder="Berat Badan (kg)">
+        <input type="number" id="tinggi" placeholder="Tinggi Badan (cm)">
+        <button onclick="hitung()">Hitung BMI</button>
+        
+        <h3 id="hasil"></h3> 
+    </div>
+
+    <script>
+        function hitung() {
+            let berat = parseFloat(document.getElementById('berat').value);
+            let tinggiCm = parseFloat(document.getElementById('tinggi').value);
+            
+            if (isNaN(berat) || isNaN(tinggiCm)) {
+                document.getElementById('hasil').innerHTML = "⚠️ Masukkan angka yang benar!";
+                return;
+            }
+
+            let tinggiM = tinggiCm / 100;
+            let bmi = (berat / (tinggiM * tinggiM)).toFixed(1);
+            let status = "";
+
+            if (bmi < 18.5) {
+                status = "Kurus";
+            } else if (bmi < 25.0) {
+                status = "Normal";
+            } else if (bmi < 30.0) {
+                status = "Gemuk";
+            } else {
+                status = "Obesitas";
+            }
+
+            document.getElementById('hasil').innerHTML = "BMI: " + bmi + " <br> Status: " + status;
+        }
+    </script>
+
+</body>
+</html>
